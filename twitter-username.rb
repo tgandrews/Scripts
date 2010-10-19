@@ -2,6 +2,7 @@ require 'rubygems'
 require 'hpricot'
 require 'open-uri'
 require 'optparse'
+require 'pp'
 #include CommandLine
 
 options = {}
