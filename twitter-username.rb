@@ -46,6 +46,8 @@ while !found
 	  puts 'No of letters ' + no_of_letters.to_s if options[:verbose]
 		no_of_letters = no_of_letters + 1
 	end
+	# The number of letters is one less than the max, 
+	# if we want to convert the number 7 to base 2 we need 2^(x - 1) 'bits', the 3rd 'bit' will hold 8 on it's own 
 	no_of_letters = no_of_letters - 1
 
 	carry = i
@@ -55,6 +57,7 @@ while !found
 	  puts '----- loop: ' + l.to_s + ' -----' if options[:verbose]
 	  max = length ** l
 	  letter_idx = carry / max
+	  # All loops apart from first will be treating letter array as 1 based, so let's fix that
 	  letter_idx = letter_idx - 1 if (l > 0)
 	  current_letter = letters[letter_idx]
 	  carry = i % max
@@ -73,7 +76,7 @@ while !found
   # Try to retrieve information from twitter
 	begin
 		puts i.to_s + ': ' + twitter_name
-		#open('http://twitter.com/' + twitter_name)
+		open('http://twitter.com/' + twitter_name)
 	rescue
 		break if twitter_name != 'i'
 	else
