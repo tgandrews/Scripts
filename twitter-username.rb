@@ -48,7 +48,7 @@ while !found
 	end
 	# The number of letters is one less than the max, 
 	# if we want to convert the number 7 to base 2 we need 2^(x - 1) 'bits', the 3rd 'bit' will hold 8 on it's own 
-	no_of_letters = no_of_letters - 1
+	no_of_letters = no_of_letters - 1 if no_of_letters > 0
 
 	carry = i
 	twitter_name = ''
