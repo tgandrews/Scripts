@@ -2,7 +2,6 @@ require 'rubygems'
 require 'hpricot'
 require 'open-uri'
 require 'optparse'
-require 'pp'
 #include CommandLine
 
 options = {}
@@ -33,48 +32,42 @@ length = letters.length
 break_point = 0
 no_of_letters = 0
 
+puts 'Verbose: ' + options[:verbose].to_s if options[:verbose ]
+
 while !found
   if options[:verbose]
     puts ''
     puts 'Index: ' + i.to_s
-    puts 'No of letters ' + no_of_letters.to_s
-    puts 'Break point ' + break_point.to_s
+    #puts 'No of letters ' + no_of_letters.to_s
   end
 	twitter_name = ''
 
-	if (i >= break_point)
-	  while (length ** no_of_letters) <  i
-	    puts 'No of letters ' + no_of_letters.to_s if options[:verbose]
-		  no_of_letters = no_of_letters + 1
-	  end
-	  no_of_letters = no_of_letters - 1
-	  break_point = i + (length ** no_of_letters)
-  end
+	while (length ** no_of_letters) <=  i
+	  puts 'No of letters ' + no_of_letters.to_s if options[:verbose]
+		no_of_letters = no_of_letters + 1
+	end
+	no_of_letters = no_of_letters - 1
 
 	carry = i
 	twitter_name = ''
-	no_of_letters_tmp = no_of_letters
-	while no_of_letters_tmp >= 0
-	  max = length ** no_of_letters_tmp
-	  current_letter_idx = (carry / max)
-	  current_letter_idx = (current_letter_idx - 1)
-	  
-	  puts 'carry = ' + carry.to_s + '%' + max.to_s if options[:verbose]
-	  
-	  carry = carry % max
-
-    current_letter_idx = current_letter_idx - 1 if (carry == 0) and (no_of_letters_tmp > 0) 
-
-	  current_letter = letters[current_letter_idx]
-	  twitter_name += current_letter
-	  no_of_letters_tmp = no_of_letters_tmp - 1
+	l = no_of_letters
+	while l >= 0
+	  puts '----- loop: ' + l.to_s + ' -----' if options[:verbose]
+	  max = length ** l
+	  letter_idx = carry / max
+	  letter_idx = letter_idx - 1 if (l > 0)
+	  current_letter = letters[letter_idx]
+	  carry = i % max
 	  
 	  if options[:verbose]
 	    puts 'carry ' + carry.to_s
-	    puts 'current_letter_idx ' + current_letter_idx.to_s
-	    puts 'no_of_letters_tmp ' + no_of_letters_tmp.to_s
+	    puts 'current_letter_idx ' + letter_idx.to_s
+	    puts 'no_of_letters_tmp ' + l.to_s
 	    puts 'current_letter ' + current_letter
     end
+    twitter_name += current_letter
+    
+    l = l - 1
 	end
 	  
   # Try to retrieve information from twitter
@@ -86,7 +79,7 @@ while !found
 	else
 	end
 	
-	break if i >= options[:stop]
+	break if !options[:stop].nil? and i >= options[:stop]
 	i = i + 1
 end
 
